@@ -1,0 +1,29 @@
+LTposter 0.2
+서상현
+
+LTposter 0.2를 실행하려면 다음과 같은 프로그램이 필요합니다.
+
+* CGI를 실행할 수 있는 웹서버
+* Python 2.4 이상
+* ElementTree 라이브러리
+ * http://effbot.org/zone/element-index.htm
+ * 데비안에는 python-elementtree 패키지로 있습니다.
+* BeautifulSoup 라이브러리
+ * http://www.crummy.com/software/BeautifulSoup/
+ * 데비안에는 python-beautifulsoup 패키지로 있습니다.
+ * 3.0 이상 버전이 필요합니다.
+* YAZ 툴킷
+ * http://www.indexdata.dk/yaz/
+ * 데비안에는 yaz 패키지로 있습니다.
+
+설치 과정은 다음과 같습니다.
+
+1. 압축 파일을 웹 서버가 CGI를 실행할 수 있는 곳에 풉니다.
+2. lt.py를 lt.cgi로 링크를 겁니다. (ln -s lt.py lt.cgi)
+3. records 디렉토리를 만듭니다. (mkdir records)
+4. records 디렉토리에 쓰기 권한을 줍니다. (chmod 777 records)
+5. account.py를 열어서, 계정 정보를 보관할 파일 경로를 적어줍니다.
+   이 파일은 웹 서버에서 볼 수 있어서는 안 됩니다.
+6. 5에서 정한 파일에 (보통 홈 디렉토리 아래 .lt-account 파일)
+   LibraryThing ID, LibraryThing 비밀번호, 네이버 API 키를 한 줄에
+   하나씩 적어줍니다.
