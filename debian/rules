@@ -32,9 +32,6 @@ build: build-stamp
 
 build-stamp: configure-stamp 
 	dh_testdir
-
-	#docbook-to-man debian/ltposter.sgml > ltposter.1
-
 	touch $@
 
 clean:
@@ -52,13 +49,11 @@ install: build
 	dh_clean -k 
 	dh_installdirs
 
-	# Add here commands to install the package into debian/ltposter.
-	#$(MAKE) install DESTDIR=$(CURDIR)/debian/ltposter
 	install -m 755 -o root lt.py $(CURDIR)/debian/ltposter/usr/share/ltposter/cgi-bin/lt.cgi
 	install -m 644 -o root account.py $(CURDIR)/debian/ltposter/usr/share/ltposter/cgi-bin
 	install -m 644 -o root aladdin.py $(CURDIR)/debian/ltposter/usr/share/ltposter/cgi-bin
 	install -m 644 -o root cgiutil.py $(CURDIR)/debian/ltposter/usr/share/ltposter/cgi-bin
-	install -m 644 -o root isbn.py $(CURDIR)/debian/ltposter/usr/share/ltposter/cgi-bin
+	install -m 644 -o root isbntool.py $(CURDIR)/debian/ltposter/usr/share/ltposter/cgi-bin
 	install -m 644 -o root ltapi.py $(CURDIR)/debian/ltposter/usr/share/ltposter/cgi-bin
 	install -m 644 -o root naver.py $(CURDIR)/debian/ltposter/usr/share/ltposter/cgi-bin
 	install -m 644 -o root useragent.py $(CURDIR)/debian/ltposter/usr/share/ltposter/cgi-bin
@@ -79,7 +74,7 @@ binary-arch: build install
 	dh_testroot
 	dh_installchangelogs CHANGES.txt
 	dh_installdocs
-	dh_installexamples
+#	dh_installexamples
 #	dh_install
 #	dh_installmenu
 #	dh_installdebconf	
@@ -91,7 +86,7 @@ binary-arch: build install
 #	dh_installinit
 	dh_installcron
 #	dh_installinfo
-	dh_installman
+#	dh_installman
 #	dh_link
 #	dh_strip
 	dh_compress
