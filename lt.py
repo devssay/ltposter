@@ -95,6 +95,8 @@ def do_isbn_query(isbn):
         publication = book.publication().encode('utf-8')
         print_info('제목', title, 'title')
         print_info('출판사', publication, 'publication')
+        date = book.date()
+        hidden_input('date', date)
         print '</p>'
     else:
         print '없습니다.<br>'
@@ -187,11 +189,12 @@ def isbn_post(form):
         return
     title = form.getvalue('title')
     author = form.getvalue('author')
+    date = form.getvalue('date')
     isbn = form.getvalue('isbn')
     publication = form.getvalue('publication')
     lang = form.getvalue('lang')
     print_progress('책을 등록합니다')
-    api.update(title, author, isbn, publication, lang)
+    api.update(title, author, date, isbn, publication, lang)
     print_progress('방금 등록한 책의 ID를 가져옵니다')
     bookid = api.get_bookid(isbn)
     print_info('bookid', bookid)

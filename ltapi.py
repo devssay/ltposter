@@ -83,12 +83,13 @@ class LTAccount(object):
     def run(self, url, params):
         self.opener.open(url, urllib.urlencode(params))
 
-    def update(self, title, author, isbn, publication, lang):
+    def update(self, title, author, date, isbn, publication, lang):
         url = 'http://www.librarything.com/update.php'
         params = dict(
             form_title=title,
             form_authorunflip=author,
             form_ISBN=isbn,
+            form_date=date,
             form_publication=publication,
             field_lang=lang,
             form_id='NEW')

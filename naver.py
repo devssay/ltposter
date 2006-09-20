@@ -42,9 +42,13 @@ class NaverBook(object):
     def title(self):
         return self.get('title')
 
-    def publication(self):
-        publisher = self.get('publisher')
+    def date(self):
         pubdate = self.get('pubdate')
         pubyear = pubdate[:4]
+        return pubyear
+
+    def publication(self):
+        publisher = self.get('publisher')
+        pubyear = self.date()
         publication = '%s (%s)' % (publisher, pubyear)
         return publication
