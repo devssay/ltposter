@@ -74,6 +74,12 @@ class MARCRecord(object):
             if value is not None:
                 return value
 
+    def lang(self):
+        return self.get('041a')
+
+    def original_lang(self):
+        return self.get('041h')
+
     # 507 원저자, 원서명에 관한 주기 (Original Author, Original Title Note)
     # 이 필드에는 번역자료의 원저자명과 원서명을 기술한다.
 
