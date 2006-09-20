@@ -75,6 +75,16 @@ def signup(username, password):
         return
     return LTAccount(opener)
 
+def translate_form(form, keymap):
+    result = {}
+    for key in form:
+        if key not in keymap:
+            continue
+        value = form.getvalue(key)
+        key = keymap[key]
+        result[key] = value
+    return result
+
 class LTAccount(object):
 
     def __init__(self, opener):
@@ -83,16 +93,19 @@ class LTAccount(object):
     def run(self, url, params):
         self.opener.open(url, urllib.urlencode(params))
 
-    def update(self, title, author, date, isbn, publication, lang):
+    update_keymap = {
+        'title': 'form_title',
+        'author': 'form_authorunflip',
+        'date': 'form_date',
+        'isbn': 'form_ISBN',
+        'publication': 'form_publication',
+        'lang': 'field_lang',
+    }
+
+    def update(self, form):
         url = 'http://www.librarything.com/update.php'
-        params = dict(
-            form_title=title,
-            form_authorunflip=author,
-            form_ISBN=isbn,
-            form_date=date,
-            form_publication=publication,
-            field_lang=lang,
-            form_id='NEW')
+        params = translate_form(form, self.update_keymap)
+        params['form_id'] = 'NEW'
         self.run(url, params)
 
     def get_bookid(self, isbn):

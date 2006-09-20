@@ -187,14 +187,9 @@ def isbn_post(form):
         print '실패했습니다.<br>'
         print '</p>'
         return
-    title = form.getvalue('title')
-    author = form.getvalue('author')
-    date = form.getvalue('date')
-    isbn = form.getvalue('isbn')
-    publication = form.getvalue('publication')
-    lang = form.getvalue('lang')
     print_progress('책을 등록합니다')
-    api.update(title, author, date, isbn, publication, lang)
+    api.update(form)
+    isbn = form.getvalue('isbn')
     print_progress('방금 등록한 책의 ID를 가져옵니다')
     bookid = api.get_bookid(isbn)
     print_info('bookid', bookid)
