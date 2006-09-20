@@ -3,7 +3,10 @@ import sys
 charset = 'utf-8'
 
 def encode(s):
-    return s.encode(charset)
+    if s:
+        return s.encode(charset)
+    else:
+        return s
 
 def http_header():
     header = 'Content-Type: text/html; charset=%s\r\n\r\n' % (charset,)
