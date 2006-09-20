@@ -68,51 +68,38 @@ def signup(username, password):
     params = dict(
         formusername=username,
         formpassword=password)
-    result = opener.open(url, urllib.urlencode(params))
-    if 'problem' in result.geturl():
-        return
-    if 'failed' in result.geturl():
-        return
-    return LTAccount(opener)
+    opener.open(url, urllib.urlencode(params))
+    return opener
 
-class LTAccount(object):
+def update(opener, title, author, isbn, publication):
+    url = 'http://www.librarything.com/update.php'
+    params = dict(
+        form_title=title,
+        form_authorunflip=author,
+        form_ISBN=isbn,
+        form_publication=publication,
+        form_id='NEW')
+    opener.open(url, urllib.urlencode(params))
 
-    def __init__(self, opener):
-        self.opener = opener
+def get_bookid(opener, isbn):
+    url = 'http://www.librarything.com/catalog_bottom.php?searchbox=' + isbn
+    response = opener.open(url)
+    soup = BeautifulSoup.BeautifulSoup(response)
+    coverid = soup.find('td', 'cover')['id']
+    return str(coverid[5:])
 
-    def run(self, url, params):
-        self.opener.open(url, urllib.urlencode(params))
+def set_cover(opener, bookid, cover):
+    url = 'http://www.librarything.com/addcover_upload.php'
+    params = dict(
+        form_url=cover,
+        grab='1',
+        book=bookid)
+    opener.open(url, urllib.urlencode(params))
 
-    def update(self, title, author, isbn, publication, lang):
-        url = 'http://www.librarything.com/update.php'
-        params = dict(
-            form_title=title,
-            form_authorunflip=author,
-            form_ISBN=isbn,
-            form_publication=publication,
-            field_lang=lang,
-            form_id='NEW')
-        self.run(url, params)
-
-    def get_bookid(self, isbn):
-        url = 'http://www.librarything.com/catalog_bottom.php?searchbox=' + isbn
-        response = self.opener.open(url)
-        soup = BeautifulSoup.BeautifulSoup(response)
-        coverid = soup.find('td', 'cover')['id']
-        return str(coverid[5:])
-
-    def set_cover(self, bookid, cover):
-        url = 'http://www.librarything.com/addcover_upload.php'
-        params = dict(
-            form_url=cover,
-            grab='1',
-            book=bookid)
-        self.run(url, params)
-
-    def work_combine(self, author, work1, work2):
-        url = 'http://www.librarything.com/work_combineworks_submit.php'
-        work = '%s/%s' % (work1, work2)
-        params = dict(
-            combine=work,
-            author=author)
-        self.run(url, params)
+def work_combine(opener, author, work1, work2):
+    url = 'http://www.librarything.com/work_combineworks_submit.php'
+    work = '%s/%s' % (work1, work2)
+    params = dict(
+        combine=work,
+        author=author)
+    opener.open(url, urllib.urlencode(params))

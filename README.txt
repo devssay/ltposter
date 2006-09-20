@@ -1,7 +1,7 @@
-LTposter 0.2
+LTposter 0.1
 서상현
 
-LTposter 0.2를 실행하려면 다음과 같은 프로그램이 필요합니다.
+LTposter 0.1을 실행하려면 다음과 같은 프로그램이 필요합니다.
 
 * CGI를 실행할 수 있는 웹서버
 * Python 2.4 이상

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 import os
 import time
 from subprocess import Popen, PIPE
@@ -45,56 +43,28 @@ class MARC(object):
 # MARC
 # http://www.loc.gov/marc/bibliographic/
 # KS X 6006-2, KORMARC
-# http://www.nl.go.kr/kormarc/regulation/regulation0301source.htm
-
-# 본서명과 대등서명에 정관사나 부정관사가 있는 경우에는 이를 원괄호로
-# 묶어 기술한다.
-def filter_article(article, title):
-    parened = '(' + article + ')'
-    l = len(parened)
-    if article[-1] != "'":
-        article = article + ' '
-    if title[:l] == parened:
-        return article + title[l:]
-    return title
-
-def filter_words(stopwords, title):
-    words = title.split()
-    filtered = [word for word in words if word not in stopwords]
-    return ' '.join(filtered)
-
+# http://www.nl.go.kr/kormarc/regulation/regulation0301.htm
 class MARCRecord(object):
 
     def __init__(self, dic):
         self.dic = dic
 
-    def get(self, *tags):
-        for tag in tags:
-            value = self.dic.get(tag)
-            if value is not None:
-                return value
-
-    # 507 원저자, 원서명에 관한 주기 (Original Author, Original Title Note)
-    # 이 필드에는 번역자료의 원저자명과 원서명을 기술한다.
-
     def author(self):
-        value = self.get('507a', '100a')
+        value = self.dic.get('100a')
         if value is None:
             return
         if value[-1] == ',':
             value = value[:-1]
         return value
 
-    articles = ['A', 'The', 'Il', "L'", 'La']
-    stopwords = ['&']
-
     def original_title(self):
         value = self.dic.get('507t')
         if value is None:
             return
-        for article in self.articles:
-            value = filter_article(article, value)
-        value = filter_words(self.stopwords, value)
+        if value[:3] == '(A)':
+            value = 'A ' + value[3:]
+        if value[:5] == '(The)':
+            value = 'The ' + value[5:]
         if ':' in value:
             value = value.split(':', 1)[0].strip()
         return value
@@ -109,7 +79,6 @@ class YAZ:
         self.dir = dir
         if not os.path.exists(dir):
             os.mkdir(dir)
-            os.chmod(dir, 0777)
 
     def path(self, isbn):
         return os.path.join(self.dir, isbn)
