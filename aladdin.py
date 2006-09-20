@@ -1,6 +1,6 @@
 import urlparse
 import httplib
-import isbntool
+import isbn
 
 def check(url):
     _, host, path, _, _ = urlparse.urlsplit(url)
@@ -19,7 +19,7 @@ def cover(isbn10):
         return url1
     if check(url2):
         return url2
-    isbn13 = isbntool.convert_to_13(isbn10)
+    isbn13 = isbn.convert_to_13(isbn10)
     url = prefix + isbn13 + '.gif'
     if check(url):
         return url

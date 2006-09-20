@@ -9,7 +9,6 @@ import os
 import cgi
 
 import cgiutil
-import isbntool
 import ltapi
 import naver
 import aladdin
@@ -34,18 +33,12 @@ def isbn_form():
     print '</p>'
     cgiutil.print_footer()
 
-def return_link():
-    print '<p>'
-    print '<a href="lt.cgi">검색으로 돌아갑니다</a>.<br>'
-    print '</p>'
-
 def isbn_query(isbn):
     title = 'ISBN 검색: %s' % (isbn,)
     cgiutil.print_header(title, 'style.css')
     print '<form action="lt.cgi" method="post">'
     cgiutil.start_table()
     do_isbn_query(isbn)
-    return_link()
     cgiutil.end_table()
     print '</form>'
     cgiutil.print_footer()
@@ -65,10 +58,6 @@ def print_progress(text):
 def do_isbn_query(isbn):
     print '<p>'
     print_info('ISBN', isbn, 'isbn')
-    if not isbntool.validate(isbn):
-        print '올바른 ISBN이 아닙니다.<br>'
-        print '</p>'
-        return
     lang = ltapi.thingLang(isbn)
     print_info('언어', lang, 'lang')
     print '</p>'
@@ -122,14 +111,11 @@ def do_isbn_query(isbn):
 
     cgiutil.next_cell()
 
-    original_title = None
     for server in zinfo.servers:
         result = z3950_query(server, isbn)
         if result:
             original_title, author = result
             break
-    if not original_title:
-        return
 
     print '<p>'
     print_progress('원서명으로 LibraryThing을 검색합니다')
@@ -149,6 +135,10 @@ def do_isbn_query(isbn):
 
     print '<p>'
     print '<input type="submit" value="등록">'
+    print '</p>'
+
+    print '<p>'
+    print '<a href="lt.cgi">검색으로 돌아갑니다</a>.<br>'
     print '</p>'
 
 def z3950_query(server, isbn):
@@ -180,8 +170,8 @@ def isbn_post(form):
     cgiutil.print_header('책 등록', 'style.css')
     print '<p>'
     print_progress('LibraryThing에 로그인합니다')
-    api = ltapi.signup(account.username, account.password)
-    if not api:
+    opener = ltapi.signup(account.username, account.password)
+    if not opener:
         print '실패했습니다.<br>'
         print '</p>'
         return
@@ -191,13 +181,13 @@ def isbn_post(form):
     publication = form.getvalue('publication')
     lang = form.getvalue('lang')
     print_progress('책을 등록합니다')
-    api.update(title, author, isbn, publication, lang)
+    ltapi.update(opener, title, author, isbn, publication, lang)
     print_progress('방금 등록한 책의 ID를 가져옵니다')
-    bookid = api.get_bookid(isbn)
+    bookid = ltapi.get_bookid(opener, isbn)
     print_info('bookid', bookid)
     print_progress('표지를 올립니다')
     cover = form.getvalue('cover')
-    api.set_cover(bookid, cover)
+    ltapi.set_cover(opener, bookid, cover)
     print_progress('책을 원서와 엮을 준비를 합니다')
     authorid = form.getvalue('authorid')
     workid = form.getvalue('workid')
@@ -206,11 +196,13 @@ def isbn_post(form):
     print_info('workid', workid)
     print_info('thisid', thisid)
     print_progress('책을 엮습니다')
-    api.work_combine(authorid, workid, thisid)
+    ltapi.work_combine(opener, authorid, workid, thisid)
     url = 'http://www.librarything.com/work-info/%s&book=%s' % (workid, bookid)
     print '<a href="%s">등록되었습니다</a>.<br>' % (url,)
     print '</p>'
-    return_link()
+    print '<p>'
+    print '<a href="lt.cgi">검색으로 돌아갑니다</a>.<br>'
+    print '</p>'
     cgiutil.print_footer()
 
 if __name__ == '__main__':
