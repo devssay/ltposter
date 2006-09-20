@@ -91,8 +91,8 @@ def do_isbn_query(isbn):
     api = naver.NaverOpenAPI(account.naverkey)
     book = api.book(isbn)
     if book:
-        title = book.title().encode('utf-8')
-        publication = book.publication().encode('utf-8')
+        title = cgiutil.encode(book.title())
+        publication = cgiutil.encode(book.publication())
         print_info('제목', title, 'title')
         print_info('출판사', publication, 'publication')
         date = book.date()
@@ -165,8 +165,8 @@ def z3950_query(server, isbn):
         print '없습니다.<br>'
         print '</p>'
         return
-    original_title = book.original_title()
-    author = book.author()
+    original_title = cgiutil.encode(book.original_title())
+    author = cgiutil.encode(book.author())
     if original_title and author:
         print_info('원서명', original_title)
         print_info('원저자명', author, 'author')

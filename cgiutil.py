@@ -1,9 +1,16 @@
 import sys
 
-def print_header(title, css=None, charset='utf-8'):
-    http_header = 'Content-Type: text/html; charset=%s\r\n\r\n' % (charset,)
-    sys.stdout.write(http_header)
+charset = 'utf-8'
 
+def encode(s):
+    return s.encode(charset)
+
+def http_header():
+    header = 'Content-Type: text/html; charset=%s\r\n\r\n' % (charset,)
+    sys.stdout.write(header)
+
+def print_header(title, css=None):
+    http_header()
     print ('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" '
            '"http://www.w3.org/TR/html4/strict.dtd">')
     print '<html>'
