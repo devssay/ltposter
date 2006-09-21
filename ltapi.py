@@ -115,6 +115,13 @@ class LTAccount(object):
         coverid = soup.find('td', 'cover')['id']
         return str(coverid[5:])
 
+    def get_worktitle(self, bookid):
+        url = 'http://www.librarything.com/work/&book=' + bookid
+        response = self.opener.open(url)
+        soup = BeautifulSoup.BeautifulSoup(response)
+        worktitle = soup.find('div', 'headsummary').h1.string
+        return worktitle
+
     def set_cover(self, bookid, cover):
         url = 'http://www.librarything.com/addcover_upload.php'
         params = dict(

@@ -200,11 +200,18 @@ def isbn_post(form):
     thisid = ltapi.get_lastpart(ltapi.link_isbn(isbn))
     if workid:
         print_progress('책을 원서와 엮을 준비를 합니다')
-        print_info('authorid', authorid)
-        print_info('workid', workid)
-        print_info('thisid', thisid)
-        print_progress('책을 엮습니다')
-        api.work_combine(authorid, workid, thisid)
+        title = form.getvalue('title')
+        worktitle = cgiutil.encode(api.get_worktitle(bookid))
+        print_info('title', title)
+        print_info('worktitle', worktitle)
+        if title != worktitle:
+            print '책이 이미 엮여 있습니다.<br>'
+        else:
+            print_info('authorid', authorid)
+            print_info('workid', workid)
+            print_info('thisid', thisid)
+            print_progress('책을 엮습니다')
+            api.work_combine(authorid, workid, thisid)
     else:
         print '책을 엮지 않습니다.<br>'
     url = 'http://www.librarything.com/work-info/%s&book=%s' % (thisid, bookid)
