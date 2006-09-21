@@ -147,7 +147,6 @@ def do_isbn_query(isbn):
     else:
         print '없습니다.<br>'
         print '</p>'
-        return
 
     print '<p>'
     print '<input type="submit" value="등록">'
@@ -196,16 +195,19 @@ def isbn_post(form):
     print_progress('표지를 올립니다')
     cover = form.getvalue('cover')
     api.set_cover(bookid, cover)
-    print_progress('책을 원서와 엮을 준비를 합니다')
     authorid = form.getvalue('authorid')
     workid = form.getvalue('workid')
     thisid = ltapi.get_lastpart(ltapi.link_isbn(isbn))
-    print_info('authorid', authorid)
-    print_info('workid', workid)
-    print_info('thisid', thisid)
-    print_progress('책을 엮습니다')
-    api.work_combine(authorid, workid, thisid)
-    url = 'http://www.librarything.com/work-info/%s&book=%s' % (workid, bookid)
+    if workid:
+        print_progress('책을 원서와 엮을 준비를 합니다')
+        print_info('authorid', authorid)
+        print_info('workid', workid)
+        print_info('thisid', thisid)
+        print_progress('책을 엮습니다')
+        api.work_combine(authorid, workid, thisid)
+    else:
+        print '책을 엮지 않습니다.<br>'
+    url = 'http://www.librarything.com/work-info/%s&book=%s' % (thisid, bookid)
     print '<a href="%s">등록되었습니다</a>.<br>' % (url,)
     print '</p>'
     return_link()
