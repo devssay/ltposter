@@ -91,7 +91,7 @@ class MARCRecord(object):
             value = value[:-1]
         return value
 
-    articles = ['A', 'The', 'Il', "L'", 'La']
+    articles = ['A', 'The', 'Il', "L'", 'La', 'Les', 'Le']
     stopwords = ['&']
 
     def original_title(self):
