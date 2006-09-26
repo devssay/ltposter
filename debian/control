@@ -8,7 +8,7 @@ Standards-Version: 3.7.2
 Package: ltposter
 Architecture: all
 Depends: python (>= 2.4), python-beautifulsoup (>= 3), python-elementtree, yaz
-Description: LibraryThing.com automation book register CGI
- ltposter is posting tool for korean using librarything.
- This tool use Z39.50 protocol and Naver OpenAPI for gathering book info.
+Description: LibraryThing book submission tool
+ LTposter is a submission tool for Korean users using LibraryThing.
+ This tool uses Z39.50 protocol and Naver OpenAPI to gather book info.
 
