@@ -1,4 +1,4 @@
-#!/usr/bin/python2.4
+#!/usr/bin/env python
 # vim:encoding=utf-8:
 
 import cgitb
@@ -221,6 +221,9 @@ def isbn_post(form):
     cgiutil.print_footer()
 
 if __name__ == '__main__':
+    if sys.hexversion < 0x2040000:
+        print 'ERROR: This CGI needs Python 2.4 or above'
+
     form = cgi.FieldStorage()
     method = os.environ['REQUEST_METHOD']
     if method == 'GET':
