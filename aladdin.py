@@ -11,7 +11,8 @@ def check(url):
         return False
     return True
 
-def cover(isbn10):
+def cover(isbn):
+    isbn10 = isbntool.convert_to_10(isbn)
     prefix = 'http://image.aladdin.co.kr/cover/cover/'
     url1 = prefix + isbn10 + '_1.gif'
     url2 = prefix + isbn10 + '_1.jpg'
