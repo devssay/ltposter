@@ -20,12 +20,14 @@ def find_redirect(url):
         return
     return redirect
 
+# LibraryThing APIs
+# http://www.librarything.com/api
+
 def link_author(author):
     author = normalize_author(author)
     url = 'http://www.librarything.com/author/' + author
     return find_redirect(url)
 
-# http://www.librarything.com/blog/2006/07/new-ways-to-link-to-book.php
 def link_isbn(isbn):
     url = 'http://www.librarything.com/isbn/' + isbn
     return find_redirect(url)
@@ -41,7 +43,6 @@ def get_lastpart(url):
 import urllib
 import elementtree.ElementTree as ET
 
-# http://www.librarything.com/thingology/2006/06/introducing-thingisbn_14.php
 def thingISBN(isbn):
     url = 'http://www.librarything.com/api/thingISBN/' + isbn
     tree = ET.parse(urllib.urlopen(url))
@@ -49,7 +50,6 @@ def thingISBN(isbn):
         return False
     return True
 
-# http://www.librarything.com/thingology/2006/08/thinglang.php
 def thingLang(isbn):
     url = 'http://www.librarything.com/api/thingLang.php?isbn=' + isbn
     code = urllib.urlopen(url).read()
