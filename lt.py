@@ -25,7 +25,7 @@ def isbn_form():
     print '<form action="lt.cgi" method="get">'
     print '<p>'
     print '<label for="isbn">ISBN</label>'
-    print '<input name="isbn" id="isbn" size="10">'
+    print '<input name="isbn" id="isbn" size="13">'
     print '<input type="submit" value="검색">'
     print '</p>'
     print '</form>'
