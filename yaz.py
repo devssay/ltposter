@@ -82,6 +82,8 @@ class MARCRecord(object):
 
     # 507 원저자, 원서명에 관한 주기 (Original Author, Original Title Note)
     # 이 필드에는 번역자료의 원저자명과 원서명을 기술한다.
+    # 원저자명이나 원서명이 서명저자사항(표시기호 245)에 원어로 나타나는
+    # 경우에는 이 필드에 기술하지 않는다.
 
     def author(self):
         value = self.get('507a', '100a')
@@ -95,7 +97,7 @@ class MARCRecord(object):
     stopwords = ['&']
 
     def original_title(self):
-        value = self.dic.get('507t')
+        value = self.get('507t', '245x')
         if value is None:
             return
         for article in self.articles:
