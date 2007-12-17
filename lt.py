@@ -88,7 +88,7 @@ def do_isbn_query(isbn):
     print '<p>'
     print_progress('네이버에서 책 정보를 검색합니다')
 
-    api = naver.NaverOpenAPI(account.naverkey)
+    api = naver.NaverOpenAPI(account.apikey['naver'])
     book = api.book(isbn)
     if book:
         title = cgiutil.encode(book.title())
