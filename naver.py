@@ -13,7 +13,7 @@ class NaverOpenAPI(object):
         else:
             self.key = self.defaultKey
 
-    # http://openapi.naver.com/05.html
+    # http://openapi.naver.com/page.nhn?PageId=1_06
     def book(self, isbn):
         query = {}
         query['key'] = self.key
