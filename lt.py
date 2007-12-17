@@ -214,7 +214,7 @@ def isbn_post(form):
             api.work_combine(authorid, workid, thisid)
     else:
         print '책을 엮지 않습니다.<br>'
-    url = 'http://www.librarything.com/work-info/%s&book=%s' % (thisid, bookid)
+    url = 'http://www.librarything.com/work/%s/details/%s' % (thisid, bookid)
     print '<a href="%s">등록되었습니다</a>.<br>' % (url,)
     print '</p>'
     return_link()
