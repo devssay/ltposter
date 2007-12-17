@@ -1,2 +1,2 @@
-다음 도서 검색 API 붙이기
-http://dna.daum.net/apis/search/book
+알라딘 API
+http://www.aladdin.co.kr/ttb/wmain.aspx
